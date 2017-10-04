@@ -15,6 +15,6 @@ docker: build
 	@docker build -t "$(DOCKER_IMAGE_NAME):$(DOCKER_IMAGE_TAG)" ./
 
 clean:
-	@rm -f ./prometheus_exporter
+	@rm -f ./postfix_exporter
 
 .PHONY: all build docker clean

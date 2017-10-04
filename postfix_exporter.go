@@ -588,7 +588,7 @@ func (e *PostfixExporter) Collect(ch chan<- prometheus.Metric) {
 
 func init() {
 	signals := make(chan os.Signal, 1)
-	signal.Notify(signals, syscall.SIGINT, syscall.SIGTERM)
+	signal.Notify(signals, syscall.SIGINT, syscall.SIGTERM, syscall.SIGHUP)
 
 	// graceful shutdown
 	go func() {

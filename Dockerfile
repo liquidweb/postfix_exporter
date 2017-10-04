@@ -8,6 +8,6 @@ RUN mkdir -p /var/log/
 
 RUN touch /var/log/postfix_exporter_input.log
 
-ENTRYPOINT /bin/postfix_exporter
+ENTRYPOINT ["/bin/postfix_exporter"]
 
 EXPOSE 9154
