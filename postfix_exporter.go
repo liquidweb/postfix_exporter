@@ -24,9 +24,11 @@ import (
 	"net"
 	"net/http"
 	"os"
+	"os/signal"
 	"regexp"
 	"strconv"
 	"strings"
+	"syscall"
 	"time"
 
 	"github.com/prometheus/client_golang/prometheus"
@@ -582,6 +584,18 @@ func (e *PostfixExporter) Collect(ch chan<- prometheus.Metric) {
 	ch <- e.smtpdSASLAuthenticationFailures
 	e.smtpdTLSConnects.Collect(ch)
 	e.unsupportedLogEntries.Collect(ch)
+}
+
+func init() {
+	signals := make(chan os.Signal, 1)
+	signal.Notify(signals, syscall.SIGINT, syscall.SIGTERM)
+
+	// graceful shutdown
+	go func() {
+		sig := <-signals
+		fmt.Printf("%+v shutting down", sig)
+		os.Exit(0)
+	}()
 }
 
 func main() {
